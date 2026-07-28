@@ -1,427 +1,914 @@
-<!doctype html>
-<html lang="id" class="scroll-smooth">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Survei & Asesmen Awal Karakteristik Murid</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- jsPDF Library -->
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js">
-  </script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest">
-  </script>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
-    }
-    .gradient-header {
-      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #2563eb 100%);
-    }
-    .custom-card {
-      transition: all 0.2s ease-in-out;
-    }
-    .custom-card:hover {
-      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survei Karakteristik & Kebutuhan Murid SMK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .form-section { display: none; }
+        .form-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+        .radio-label, .check-label { display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; padding: 0.25rem 0;}
+        .radio-label input, .check-label input { margin-top: 0.25rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
+<body class="text-gray-800 antialiased py-6 px-4 sm:px-6">
 
-<body class="min-h-screen flex flex-col justify-between">
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden">
+        <div class="bg-blue-700 text-white p-6 text-center">
+            <h1 class="text-2xl sm:text-3xl font-bold mb-2">SURVEI PENGENALAN KARAKTERISTIK DAN KEBUTUHAN PERKEMBANGAN MURID</h1>
+            <p class="text-blue-100 text-sm">Kementerian Pendidikan Dasar dan Menengah</p>
+        </div>
+        
+        <div class="p-6 sm:p-8">
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 text-sm text-blue-800 rounded">
+                <p class="mb-2"><strong>Petunjuk:</strong> Isilah formulir ini sesuai dengan kondisi, minat, pengalaman belajar, dan kebutuhan dukungan yang kamu miliki.</p>
+                <p><strong>Catatan:</strong> Seluruh data bersifat rahasia dan hanya digunakan untuk layanan pendidikan, pendampingan, dan pengembangan diri di sekolah.</p>
+            </div>
 
-  <!-- ===== HEADER ===== -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-    <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="p-2.5 bg-blue-600 text-white rounded-xl shadow-md">
-          <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+            <form id="surveyForm" class="space-y-6">
+                
+                <div class="form-section active" id="sectionA">
+                    <h2 class="text-xl font-bold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">A. Latar Belakang Personal</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" name="Nama Lengkap" required class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">NISN/Nomor induk peserta didik</label>
+                            <input type="text" name="NISN" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kelas/Jurusan</label>
+                            <input type="text" name="Kelas/Jurusan" required class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Program keahlian/konsentrasi keahlian</label>
+                            <input type="text" name="Program Keahlian" required class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nomor HP yang dapat dihubungi</label>
+                            <input type="tel" name="No HP" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Asal sekolah SMP/MTs/sederajat</label>
+                            <input type="text" name="Asal Sekolah" required class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tahun lulus SMP/MTs/sederajat</label>
+                            <input type="number" name="Tahun Lulus" required class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        
+                        <div class="col-span-1 md:col-span-2 mt-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Apakah kamu memiliki disabilitas/kebutuhan khusus? (pilih salah satu)</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-sm bg-gray-50 p-3 rounded border border-gray-200">
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Tidak" checked> Tidak</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Hambatan Penglihatan"> Hambatan Penglihatan</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Hambatan Pendengaran"> Hambatan Pendengaran</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Hambatan Intelektual"> Hambatan Intelektual</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Hambatan Fisik Motorik"> Hambatan Fisik Motorik</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Hambatan Mental"> Hambatan Mental (Emosi/Perilaku)</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Autisme"> Autisme</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="ADHD"> ADHD (Hiperaktivitas)</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Sindrome Down"> Sindrome Down</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Slow Learner"> Lamban Belajar (Slow Learner)</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Kesulitan Belajar Spesifik"> Kesulitan Belajar Spesifik</label>
+                                <label class="radio-label"><input type="radio" name="Disabilitas" value="Cerdas/Bakat Istimewa"> Cerdas/Bakat Istimewa</label>
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Bahasa yang paling sering kamu gunakan saat berkomunikasi di rumah</label>
+                            <div class="flex flex-wrap gap-4 text-sm">
+                                <label class="radio-label"><input type="radio" name="Bahasa Sehari-hari" value="Bahasa Indonesia"> Bahasa Indonesia</label>
+                                <label class="radio-label"><input type="radio" name="Bahasa Sehari-hari" value="Bahasa daerah"> Bahasa daerah</label>
+                                <label class="radio-label"><input type="radio" name="Bahasa Sehari-hari" value="Bahasa asing"> Bahasa asing</label>
+                                <label class="radio-label"><input type="radio" name="Bahasa Sehari-hari" value="Campuran"> Campuran</label>
+                                <label class="radio-label"><input type="radio" name="Bahasa Sehari-hari" value="Lainnya"> Lainnya</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section" id="sectionB">
+                    <h2 class="text-xl font-bold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">B. Akademik</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Apakah program keahlian yang kamu jalani sudah sesuai dengan minatmu?</label>
+                                <div class="flex flex-wrap gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Sesuai Minat" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Sesuai Minat" value="Tidak"> Tidak</label>
+                                    <label class="radio-label"><input type="radio" name="Sesuai Minat" value="Belum tahu"> Belum tahu</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Bagaimana perasaanmu diterima di sekolah ini?</label>
+                                <select name="Perasaan Diterima" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih perasaanmu...</option>
+                                    <option value="Senang">Senang</option>
+                                    <option value="Cukup senang">Cukup senang</option>
+                                    <option value="Biasa saja">Biasa saja</option>
+                                    <option value="Masih ragu">Masih ragu</option>
+                                    <option value="Terpaksa">Terpaksa</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Apa alasan kamu masuk program keahlian yang kamu pilih sekarang?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                <label class="radio-label"><input type="radio" name="Alasan Jurusan" value="Keinginan sendiri"> Keinginan sendiri</label>
+                                <label class="radio-label"><input type="radio" name="Alasan Jurusan" value="Saran orang tua/wali"> Saran orang tua/wali</label>
+                                <label class="radio-label"><input type="radio" name="Alasan Jurusan" value="Peluang kerja"> Peluang kerja</label>
+                                <label class="radio-label"><input type="radio" name="Alasan Jurusan" value="Ikut teman"> Ikut teman</label>
+                                <label class="radio-label"><input type="radio" name="Alasan Jurusan" value="Saran guru/sekolah sebelumnya"> Saran guru/sekolah sebelumnya</label>
+                                <label class="radio-label"><input type="radio" name="Alasan Jurusan" value="Belum memiliki pilihan jelas"> Belum memiliki pilihan yang jelas</label>
+                                <label class="radio-label"><input type="radio" name="Alasan Jurusan" value="Lainnya"> Lainnya</label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mata pelajaran yang paling disenangi (maks 5 & alasan)</label>
+                                <textarea name="Mapel Disenangi" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mata pelajaran yang paling menantang/sulit (maks 5 & alasan)</label>
+                                <textarea name="Mapel Sulit" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Bakat atau keahlian menonjol yang dimiliki</label>
+                                <textarea name="Bakat Menonjol" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Pengalaman kegiatan, lomba, organisasi, atau karya (jika ada)</label>
+                                <textarea name="Pengalaman" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Ekstrakurikuler atau kegiatan sekolah yang diminati</label>
+                                <input type="text" name="Ekskul Diminati" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50 p-4 rounded border border-gray-200">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Kebiasaan belajar di luar jam sekolah? (pilih satu)</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Kebiasaan Belajar" value="Belajar mandiri"> Belajar mandiri</label>
+                                    <label class="radio-label"><input type="radio" name="Kebiasaan Belajar" value="Belajar bersama teman"> Belajar bersama teman</label>
+                                    <label class="radio-label"><input type="radio" name="Kebiasaan Belajar" value="Didampingi orang tua"> Didampingi orang tua/wali</label>
+                                    <label class="radio-label"><input type="radio" name="Kebiasaan Belajar" value="Bimbingan belajar"> Bimbingan belajar/les</label>
+                                    <label class="radio-label"><input type="radio" name="Kebiasaan Belajar" value="Internet/video"> Belajar via internet/video</label>
+                                    <label class="radio-label"><input type="radio" name="Kebiasaan Belajar" value="Hanya saat tugas"> Hanya saat ada tugas/ujian</label>
+                                    <label class="radio-label"><input type="radio" name="Kebiasaan Belajar" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Berapa jam rata-rata belajar di luar jam sekolah?</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Waktu Belajar" value="Tidak ada"> Tidak ada</label>
+                                    <label class="radio-label"><input type="radio" name="Waktu Belajar" value="< 30 menit"> Kurang dari 30 menit</label>
+                                    <label class="radio-label"><input type="radio" name="Waktu Belajar" value="31-60 menit"> 31-60 menit</label>
+                                    <label class="radio-label"><input type="radio" name="Waktu Belajar" value="60-90 menit"> 60-90 menit</label>
+                                    <label class="radio-label"><input type="radio" name="Waktu Belajar" value="> 90 menit"> Lebih dari 90 menit</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Cara apa yang paling membantu memahami materi? (pilih satu)</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Gaya Belajar" value="Mendengarkan"> Mendengarkan penjelasan</label>
+                                    <label class="radio-label"><input type="radio" name="Gaya Belajar" value="Membaca"> Membaca materi</label>
+                                    <label class="radio-label"><input type="radio" name="Gaya Belajar" value="Visual/Gambar"> Melihat contoh/gambar/video</label>
+                                    <label class="radio-label"><input type="radio" name="Gaya Belajar" value="Praktik"> Praktik langsung</label>
+                                    <label class="radio-label"><input type="radio" name="Gaya Belajar" value="Diskusi"> Diskusi dengan teman</label>
+                                    <label class="radio-label"><input type="radio" name="Gaya Belajar" value="Rangkuman"> Membuat catatan/rangkuman</label>
+                                    <label class="radio-label"><input type="radio" name="Gaya Belajar" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Hal apa yang paling menyulitkan mengikuti pembelajaran? (pilih satu)</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Memahami penjelasan lisan"> Memahami penjelasan lisan</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Memahami bacaan"> Memahami bacaan</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Menghitung"> Menghitung/matematika</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Tugas tepat waktu"> Mengerjakan tugas tepat waktu</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Fokus/Konsentrasi"> Memusatkan perhatian</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Presentasi"> Berbicara/presentasi</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Kerja kelompok"> Bekerja dalam kelompok</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Atur waktu"> Mengatur waktu belajar</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Tidak ada"> Tidak ada</label>
+                                    <label class="radio-label"><input type="radio" name="Kesulitan Belajar" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-blue-50 p-4 rounded border border-blue-100">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Apakah perlu bantuan tambahan memahami materi?</label>
+                                <div class="flex flex-wrap gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Perlu Bantuan Tambahan" value="Tidak"> Tidak</label>
+                                    <label class="radio-label"><input type="radio" name="Perlu Bantuan Tambahan" value="Kadang"> Kadang-kadang</label>
+                                    <label class="radio-label"><input type="radio" name="Perlu Bantuan Tambahan" value="Sering"> Sering</label>
+                                    <label class="radio-label"><input type="radio" name="Perlu Bantuan Tambahan" value="Hampir selalu"> Hampir selalu</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Jika ya, bantuan seperti apa? (pilih satu)</label>
+                                <select name="Bentuk Bantuan" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih bentuk bantuan...</option>
+                                    <option value="Tidak memerlukan">Tidak memerlukan bantuan</option>
+                                    <option value="Penjelasan ulang">Penjelasan ulang dari guru</option>
+                                    <option value="Contoh/praktik tambahan">Contoh soal/praktik tambahan</option>
+                                    <option value="Pendampingan teman">Pendampingan teman sebaya</option>
+                                    <option value="Bimbingan konseling">Bimbingan konseling</option>
+                                    <option value="Materi tertulis/video">Materi tertulis/video</option>
+                                    <option value="Waktu tambahan">Waktu belajar tambahan</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Punya tempat belajar nyaman di rumah?</label>
+                                <div class="flex gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Tempat Belajar Nyaman" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Belajar Nyaman" value="Sebagian"> Sebagian</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Belajar Nyaman" value="Tidak"> Tidak</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Akses perangkat dan internet?</label>
+                                <select name="Akses Perangkat Internet" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih kondisi akses...</option>
+                                    <option value="Memadai">Perangkat & internet memadai</option>
+                                    <option value="Perangkat ada, internet terbatas">Perangkat ada, internet terbatas</option>
+                                    <option value="Internet ada, perangkat terbatas">Internet ada, perangkat terbatas</option>
+                                    <option value="Keduanya terbatas">Keduanya terbatas</option>
+                                    <option value="Tidak ada">Tidak ada</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Rencana utama setelah lulus SMK</label>
+                                <select name="Rencana Lulus" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih rencana...</option>
+                                    <option value="Bekerja">Bekerja</option>
+                                    <option value="Kuliah">Kuliah</option>
+                                    <option value="Wirausaha">Wirausaha</option>
+                                    <option value="Magang dalam negeri">Magang dalam negeri</option>
+                                    <option value="Magang luar negeri">Magang luar negeri</option>
+                                    <option value="Belum tahu">Belum tahu</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Profesi impian (maks 5 & alasan)</label>
+                                <textarea name="Profesi Impian" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Jurusan kuliah diminati (jika ingin kuliah)</label>
+                                <textarea name="Jurusan Kuliah" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Butuh info bimbingan karier, kuliah, atau wirausaha?</label>
+                            <div class="flex gap-4 text-sm">
+                                <label class="radio-label"><input type="radio" name="Butuh Info Karier" value="Ya"> Ya</label>
+                                <label class="radio-label"><input type="radio" name="Butuh Info Karier" value="Tidak"> Tidak</label>
+                                <label class="radio-label"><input type="radio" name="Butuh Info Karier" value="Belum tahu"> Belum tahu</label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50 p-4 rounded border border-gray-200">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Aplikasi/medsos paling sering digunakan (pilih satu)</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Aplikasi Sering Dipakai" value="Tidak ada"> Tidak ada</label>
+                                    <label class="radio-label"><input type="radio" name="Aplikasi Sering Dipakai" value="Percakapan"> Aplikasi percakapan</label>
+                                    <label class="radio-label"><input type="radio" name="Aplikasi Sering Dipakai" value="Media sosial"> Media sosial</label>
+                                    <label class="radio-label"><input type="radio" name="Aplikasi Sering Dipakai" value="Streaming"> Streaming video/musik</label>
+                                    <label class="radio-label"><input type="radio" name="Aplikasi Sering Dipakai" value="Game online"> Game online</label>
+                                    <label class="radio-label"><input type="radio" name="Aplikasi Sering Dipakai" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Jam di depan layar HP/Gadget (luar jam sekolah)</label>
+                                <select name="Jam Layar" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm mb-4">
+                                    <option value="" disabled selected>Pilih durasi...</option>
+                                    <option value="< 1 jam">Kurang dari 1 jam</option>
+                                    <option value="1-3 jam">1-3 jam</option>
+                                    <option value="3-5 jam">3-5 jam</option>
+                                    <option value="> 5 jam">Lebih dari 5 jam sehari</option>
+                                </select>
+                                
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Aturan ortu batas HP di rumah?</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Aturan HP" value="Ya ketat"> Ya, sangat ketat</label>
+                                    <label class="radio-label"><input type="radio" name="Aturan HP" value="Ada tapi dilanggar"> Ada aturan, tapi kadang dilanggar</label>
+                                    <label class="radio-label"><input type="radio" name="Aturan HP" value="Tidak ada, bebas"> Tidak ada aturan, bebas</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tantangan yang dirasakan untuk mencapai cita-cita (Bisa pilih > 1)</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Tidak ada"> Tidak ada</label>
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Keuangan"> Keuangan</label>
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Transportasi"> Transportasi</label>
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Kemampuan belajar"> Kemampuan belajar</label>
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Kesehatan"> Kesehatan</label>
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Pergaulan"> Pergaulan</label>
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Hubungan keluarga"> Hubungan keluarga</label>
+                                <label class="check-label"><input type="checkbox" name="Tantangan Cita-cita[]" value="Lainnya"> Lainnya</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-section" id="sectionC">
+                    <h2 class="text-xl font-bold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">C. Keluarga</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tinggal dengan siapa saat ini?</label>
+                                <select name="Tinggal Dengan" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Orang tua lengkap">Orang tua lengkap</option>
+                                    <option value="Ayah saja">Ayah saja</option>
+                                    <option value="Ibu saja">Ibu saja</option>
+                                    <option value="Kakek/nenek">Kakek/nenek</option>
+                                    <option value="Saudara">Saudara</option>
+                                    <option value="Wali">Wali</option>
+                                    <option value="Kos/kontrakan">Kos/kontrakan sendiri</option>
+                                    <option value="Asrama">Asrama</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Orang dewasa yang paling sering mendampingi sekolah? (pilih satu)</label>
+                                <select name="Pendamping Sekolah" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Ayah">Ayah</option>
+                                    <option value="Ibu">Ibu</option>
+                                    <option value="Ayah dan Ibu">Ayah dan ibu</option>
+                                    <option value="Kakek/nenek">Kakek/nenek</option>
+                                    <option value="Kakak/saudara">Kakak/saudara</option>
+                                    <option value="Wali/pengasuh">Wali/pengasuh</option>
+                                    <option value="Guru/mentor">Guru/mentor</option>
+                                    <option value="Tidak ada khusus">Tidak ada yang khusus</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Status keberadaan orang tua kandung</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Status Ortu Kandung" value="Keduanya hidup"> Kedua ortu masih hidup</label>
+                                    <label class="radio-label"><input type="radio" name="Status Ortu Kandung" value="Ayah wafat"> Ayah sudah meninggal</label>
+                                    <label class="radio-label"><input type="radio" name="Status Ortu Kandung" value="Ibu wafat"> Ibu sudah meninggal</label>
+                                    <label class="radio-label"><input type="radio" name="Status Ortu Kandung" value="Keduanya wafat"> Keduanya sudah meninggal</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Status tempat tinggal orang tua/wali</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Status Tempat Tinggal Ortu" value="Bersama"> Tinggal bersama</label>
+                                    <label class="radio-label"><input type="radio" name="Status Tempat Tinggal Ortu" value="Merantau"> Tidak serumah (bekerja/merantau)</label>
+                                    <label class="radio-label"><input type="radio" name="Status Tempat Tinggal Ortu" value="Bercerai"> Berpisah/bercerai</label>
+                                    <label class="radio-label"><input type="radio" name="Status Tempat Tinggal Ortu" value="Tidak diketahui"> Salah satu tidak diketahui</label>
+                                    <label class="radio-label"><input type="radio" name="Status Tempat Tinggal Ortu" value="Tidak menjawab"> Tidak ingin menjawab</label>
+                                    <label class="radio-label"><input type="radio" name="Status Tempat Tinggal Ortu" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50 p-4 rounded border border-gray-200">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tanggung jawab rutin di rumah? (pilih satu)</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Tanggung Jawab Rumah" value="Tidak ada"> Tidak</label>
+                                    <label class="radio-label"><input type="radio" name="Tanggung Jawab Rumah" value="Membantu PR"> Membantu pekerjaan rumah</label>
+                                    <label class="radio-label"><input type="radio" name="Tanggung Jawab Rumah" value="Menjaga adik"> Menjaga adik/anggota keluarga</label>
+                                    <label class="radio-label"><input type="radio" name="Tanggung Jawab Rumah" value="Bekerja"> Bekerja membantu keluarga</label>
+                                    <label class="radio-label"><input type="radio" name="Tanggung Jawab Rumah" value="Merawat keluarga"> Merawat anggota keluarga</label>
+                                    <label class="radio-label"><input type="radio" name="Tanggung Jawab Rumah" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Pemenuhan kebutuhan belajar saat ini?</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Pemenuhan Belajar" value="Baik"> Terpenuhi dengan baik</label>
+                                    <label class="radio-label"><input type="radio" name="Pemenuhan Belajar" value="Sebagian besar"> Sebagian besar terpenuhi</label>
+                                    <label class="radio-label"><input type="radio" name="Pemenuhan Belajar" value="Sebagian kecil"> Sebagian kecil terpenuhi</label>
+                                    <label class="radio-label"><input type="radio" name="Pemenuhan Belajar" value="Sering kesulitan"> Sering kesulitan memenuhi</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fasilitas belajar apa saja yang tersedia? (pilih satu)</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-sm">
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Tempat belajar"> Tempat belajar</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Buku pelajaran"> Buku pelajaran</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Bahan bacaan"> Bahan bacaan tambahan</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="HP"> HP</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Laptop/komputer"> Laptop/komputer</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Internet"> Internet/paket data</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Alat praktik"> Alat praktik jurusan</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Transportasi"> Transportasi ke sekolah</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Uang saku"> Uang saku</label>
+                                <label class="radio-label"><input type="radio" name="Fasilitas Belajar Tersedia" value="Lainnya"> Lainnya</label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Pernah terima bantuan pendidikan di SMP? (pilih satu)</label>
+                                <select name="Bantuan SMP" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Tidak ada">Tidak ada</option>
+                                    <option value="PIP">PIP</option>
+                                    <option value="Beasiswa daerah">Beasiswa daerah</option>
+                                    <option value="Beasiswa prestasi">Beasiswa prestasi</option>
+                                    <option value="Bantuan yayasan">Bantuan sekolah/yayasan</option>
+                                    <option value="Tidak tahu">Tidak tahu</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Butuh info bantuan/beasiswa sekolah?</label>
+                                <div class="flex gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Butuh Info Beasiswa" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Butuh Info Beasiswa" value="Tidak"> Tidak</label>
+                                    <label class="radio-label"><input type="radio" name="Butuh Info Beasiswa" value="Belum tahu"> Belum tahu</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Harapan utama ortu setelah lulus SMK?</label>
+                                <select name="Harapan Ortu" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Bekerja">Bekerja</option>
+                                    <option value="Kuliah">Kuliah</option>
+                                    <option value="Wirausaha">Wirausaha</option>
+                                    <option value="Magang DN">Magang dalam negeri</option>
+                                    <option value="Magang LN">Magang luar negeri</option>
+                                    <option value="Tidak tahu">Tidak tahu</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Ortu dukung pilihan jurusan/rencanamu?</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Dukungan Ortu" value="Sangat"> Sangat mendukung</label>
+                                    <label class="radio-label"><input type="radio" name="Dukungan Ortu" value="Cukup"> Cukup mendukung</label>
+                                    <label class="radio-label"><input type="radio" name="Dukungan Ortu" value="Kurang"> Kurang mendukung</label>
+                                    <label class="radio-label"><input type="radio" name="Dukungan Ortu" value="Tidak"> Tidak mendukung</label>
+                                    <label class="radio-label"><input type="radio" name="Dukungan Ortu" value="Tidak tahu"> Tidak tahu</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-section" id="sectionD">
+                    <h2 class="text-xl font-bold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">D. Kesehatan</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 bg-blue-50 p-4 rounded border border-blue-100">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Punya kondisi kesehatan/penyakit bawaan?</label>
+                                <div class="flex gap-4 text-sm mb-2">
+                                    <label class="radio-label"><input type="radio" name="Punya Penyakit Bawaan" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Punya Penyakit Bawaan" value="Tidak" checked> Tidak</label>
+                                </div>
+                                <input type="text" name="Sebutkan Penyakit" placeholder="Jika Ya, sebutkan..." class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Memiliki alergi (makanan, debu, obat, dll)?</label>
+                                <div class="flex gap-4 text-sm mb-2">
+                                    <label class="radio-label"><input type="radio" name="Punya Alergi" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Punya Alergi" value="Tidak" checked> Tidak</label>
+                                </div>
+                                <input type="text" name="Sebutkan Alergi & Tindakan" placeholder="Jika Ya, sebutkan hal dihindari/tindakan..." class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Sedang jalani pengobatan jangka panjang/minum obat jam sekolah?</label>
+                                <div class="flex gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Minum Obat" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Minum Obat" value="Tidak" checked> Tidak</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Ada pembatasan aktivitas fisik saran dokter?</label>
+                                <div class="flex gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Batas Fisik" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Batas Fisik" value="Tidak" checked> Tidak</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Pernah dirawat RS/operasi 1 tahun terakhir?</label>
+                                <div class="flex gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Dirawat RS" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Dirawat RS" value="Tidak" checked> Tidak</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Dalam 2 minggu terakhir, seberapa sering merasa sangat cemas/sedih/marah?</label>
+                                <select name="Frekuensi Sedih Cemas" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Tidak pernah">Tidak pernah</option>
+                                    <option value="Jarang">Jarang</option>
+                                    <option value="Kadang-kadang">Kadang-kadang</option>
+                                    <option value="Sering">Sering</option>
+                                    <option value="Hampir setiap hari">Hampir setiap hari</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Pernah dapat pendampingan dari dokter/psikolog/terapis?</label>
+                                <div class="flex gap-4 text-sm mt-3">
+                                    <label class="radio-label"><input type="radio" name="Pendampingan Profesional" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Pendampingan Profesional" value="Tidak"> Tidak</label>
+                                </div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Jika hadapi masalah, ke siapa biasa cerita? (pilih satu)</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Tidak ada"> Tidak ada</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Orang tua/wali"> Orang tua/wali</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Saudara"> Saudara</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Teman"> Teman</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Guru"> Guru</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Guru BK"> Guru BK/konselor</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Tokoh agama"> Tokoh agama/komunitas</label>
+                                    <label class="radio-label"><input type="radio" name="Tempat Cerita" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section" id="sectionE">
+                    <h2 class="text-xl font-bold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">E. Karakteristik Personal</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Kecenderungan interaksi dengan orang lain?</label>
+                                <select name="Interaksi Sosial" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Nyaman sendiri/kelompok kecil">Nyaman sendiri/kelompok kecil</option>
+                                    <option value="Mudah bergaul">Mudah bergaul dengan banyak orang</option>
+                                    <option value="Bergantung situasi">Bergantung situasi</option>
+                                    <option value="Belum tahu">Belum tahu</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Bagaimana beradaptasi di lingkungan baru?</label>
+                                <select name="Adaptasi Lingkungan" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Cepat">Cepat menyesuaikan diri</option>
+                                    <option value="Perlu waktu">Perlu waktu</option>
+                                    <option value="Diam dahulu">Cenderung diam terlebih dahulu</option>
+                                    <option value="Mudah cemas">Mudah cemas</option>
+                                    <option value="Bergantung situasi">Bergantung situasi</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kelebihan / kekuatan diri yang dirasakan</label>
+                                <textarea name="Kelebihan Diri" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Hobi, minat, atau aktivitas yang paling disukai</label>
+                                <textarea name="Hobi" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded border border-gray-200">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Bidang dikembangkan di SMK? (pilih satu)</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Akademik"> Akademik</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Praktik"> Praktik kejuruan</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Public speaking"> Public speaking</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Kepemimpinan"> Kepemimpinan</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Kedisiplinan"> Kedisiplinan</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Kerja sama tim"> Kerja sama tim</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Manajemen waktu"> Manajemen waktu</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Percaya diri"> Percaya diri</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Digital"> Keterampilan digital</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Kewirausahaan"> Kewirausahaan</label>
+                                <label class="radio-label"><input type="radio" name="Bidang Kembang" value="Lainnya"> Lainnya</label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Saat marah/kecewa ekspresinya? (pilih satu)</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Ekspresi Marah" value="Diam"> Diam/menarik diri</label>
+                                    <label class="radio-label"><input type="radio" name="Ekspresi Marah" value="Bercerita"> Bercerita kepada orang lain</label>
+                                    <label class="radio-label"><input type="radio" name="Ekspresi Marah" value="Menangis"> Menangis</label>
+                                    <label class="radio-label"><input type="radio" name="Ekspresi Marah" value="Nada tinggi"> Berbicara nada tinggi</label>
+                                    <label class="radio-label"><input type="radio" name="Ekspresi Marah" value="Menulis/Musik"> Menulis/mendengarkan musik/dll</label>
+                                    <label class="radio-label"><input type="radio" name="Ekspresi Marah" value="Sulit kendali"> Sulit mengendalikan emosi</label>
+                                    <label class="radio-label"><input type="radio" name="Ekspresi Marah" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Jika kesulitan belajar/masalah apa yang dilakukan? (pilih satu)</label>
+                                <div class="space-y-1 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Respon Masalah" value="Coba sendiri"> Mencoba menyelesaikan sendiri</label>
+                                    <label class="radio-label"><input type="radio" name="Respon Masalah" value="Tanya teman"> Bertanya kepada teman</label>
+                                    <label class="radio-label"><input type="radio" name="Respon Masalah" value="Tanya guru"> Bertanya kepada guru</label>
+                                    <label class="radio-label"><input type="radio" name="Respon Masalah" value="Cerita ortu"> Bercerita kepada ortu/wali</label>
+                                    <label class="radio-label"><input type="radio" name="Respon Masalah" value="Hubungi BK"> Menghubungi guru BK/konselor</label>
+                                    <label class="radio-label"><input type="radio" name="Respon Masalah" value="Diam"> Cenderung diam/tidak bercerita</label>
+                                    <label class="radio-label"><input type="radio" name="Respon Masalah" value="Lainnya"> Lainnya</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Dalam pertemanan yang mudah bagimu? (pilih satu)</label>
+                                <select name="Pertemanan Mudah" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Mulai percakapan">Memulai percakapan</option>
+                                    <option value="Bekerja sama">Bekerja sama</option>
+                                    <option value="Mendengar">Mendengarkan orang lain</option>
+                                    <option value="Memimpin">Memimpin kelompok</option>
+                                    <option value="Membantu">Membantu teman</option>
+                                    <option value="Jaga rahasia">Menjaga rahasia/kepercayaan</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Dalam pertemanan yang menantang? (pilih satu)</label>
+                                <select name="Pertemanan Menantang" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Mulai percakapan">Memulai percakapan</option>
+                                    <option value="Gabung kelompok">Bergabung kelompok baru</option>
+                                    <option value="Sampaikan pendapat">Menyampaikan pendapat</option>
+                                    <option value="Kelola konflik">Mengelola konflik</option>
+                                    <option value="Terima kritik">Menerima kritik</option>
+                                    <option value="Percaya diri">Percaya diri</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Punya teman dekat di sekolah ini?</label>
+                                <div class="flex gap-4 text-sm">
+                                    <label class="radio-label"><input type="radio" name="Punya Teman Dekat" value="Ya"> Ya</label>
+                                    <label class="radio-label"><input type="radio" name="Punya Teman Dekat" value="Tidak"> Tidak</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Kemandirian mengatur jadwal/tugas harian?</label>
+                                <select name="Kemandirian Jadwal" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 text-sm">
+                                    <option value="" disabled selected>Pilih...</option>
+                                    <option value="Belum mandiri">Belum mandiri</option>
+                                    <option value="Sering diingatkan">Masih sering diingatkan</option>
+                                    <option value="Cukup mandiri">Cukup mandiri</option>
+                                    <option value="Mandiri">Mandiri</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Hal yang membuat nyaman & semangat belajar</label>
+                                <textarea name="Penyemangat Belajar" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Hal yang membuat tidak nyaman/sulit fokus</label>
+                                <textarea name="Sulit Fokus" rows="2" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Pesan penting untuk Wali Kelas / Guru BK agar mendukungmu lebih baik</label>
+                                <textarea name="Pesan Wali Kelas" rows="3" class="w-full p-2 border border-gray-300 rounded focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 p-4 bg-yellow-50 border border-yellow-300 rounded">
+                            <label class="check-label font-medium text-gray-800">
+                                <input type="checkbox" required id="agreement">
+                                Saya menyatakan bahwa data yang diisi dalam formulir ini benar dan dapat dipertanggungjawabkan.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-6 border-t border-gray-200 mt-8">
+                    <button type="button" id="prevBtn" class="hidden px-5 py-2 bg-gray-200 text-gray-700 font-medium rounded hover:bg-gray-300 transition-colors">Kembali</button>
+                    <div id="stepIndicator" class="text-sm font-medium text-gray-500">Langkah 1 dari 5</div>
+                    <button type="button" id="nextBtn" class="px-5 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition-colors">Selanjutnya</button>
+                    <button type="submit" id="submitBtn" class="hidden px-5 py-2 bg-green-600 text-white font-medium rounded hover:bg-green-700 transition-colors">
+                        Kirim & Simpan PDF
+                    </button>
+                </div>
+            </form>
         </div>
-        <div>
-          <h1 class="font-bold text-slate-800 text-lg leading-tight">Survei Murid</h1>
-          <p class="text-xs text-slate-500 font-medium">Asesmen Awal & Karakteristik Belajar</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full border border-blue-200">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Kurikulum Merdeka
-        </span>
-      </div>
     </div>
-  </header>
 
-  <!-- ===== MAIN CONTENT ===== -->
-  <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-grow">
-    <div id="survey-container" class="space-y-6">
-
-      <!-- Hero Banner -->
-      <div class="gradient-header rounded-2xl p-6 sm:p-8 text-white shadow-lg">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-blue-100 mb-3 backdrop-blur-sm border border-white/20">
-          <i data-lucide="user-check" class="w-3.5 h-3.5"></i> Asesmen Diagnostik Non-Kognitif
+    <div id="statusModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <div id="modalLoading" class="hidden">
+                <svg class="animate-spin h-10 w-10 text-blue-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="font-medium text-gray-800">Menyimpan data survei...</p>
+                <p class="text-sm text-gray-500 mt-1">Ini mungkin butuh beberapa detik.</p>
+            </div>
+            <div id="modalSuccess" class="hidden">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Berhasil!</h3>
+                <p class="text-gray-600 mb-4">Data survei lengkap berhasil tersimpan.</p>
+                <button onclick="window.location.reload()" class="bg-blue-600 text-white px-4 py-2 rounded font-medium hover:bg-blue-700">Selesai</button>
+            </div>
+            <div id="modalError" class="hidden">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Gagal</h3>
+                <p id="errorMsg" class="text-gray-600 mb-4 text-sm">Terjadi kesalahan.</p>
+                <button onclick="closeModal()" class="bg-gray-200 text-gray-800 px-4 py-2 rounded font-medium hover:bg-gray-300">Kembali</button>
+            </div>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">Survei Karakteristik & Gaya Belajar Murid</h2>
-        <p class="text-blue-100 text-sm sm:text-base leading-relaxed max-w-2xl">
-          Isilah survei ini dengan jujur untuk membantu guru mengenal potensi, minat, gaya belajar, serta kesiapan fasilitas belajar kamu di sekolah.
-        </p>
-      </div>
-
-      <!-- ===== FORM ===== -->
-      <form id="survey-form" class="space-y-8">
-
-        <!-- Bagian A: Profil & Akses Digital -->
-        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm custom-card space-y-6">
-          <div class="flex items-center gap-3 pb-4 border-b border-slate-100">
-            <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">A</div>
-            <div>
-              <h3 class="font-bold text-slate-800 text-lg">Profil & Akses Belajar Digital</h3>
-              <p class="text-xs text-slate-500">Informasi identitas dan ketersediaan sarana belajar</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-semibold text-slate-700 mb-1.5" for="nama">Nama Lengkap <span class="text-rose-500">*</span></label>
-              <input id="nama" name="nama" type="text" required placeholder="Contoh: Budi Santoso" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-slate-700 mb-1.5" for="kelas">Kelas / Konsentrasi Keahlian <span class="text-rose-500">*</span></label>
-              <input id="kelas" name="kelas" type="text" required placeholder="Contoh: X RPL 1 / XI TKJ 2" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" />
-            </div>
-          </div>
-
-          <!-- Perangkat Belajar -->
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2">
-              Perangkat Belajar yang Dimiliki / Digunakan:
-            </label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="checkbox" name="perangkat" value="HP/Smartphone" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500" />
-                <span class="text-sm font-medium text-slate-700">📱 HP / Smartphone Pribadi</span>
-              </label>
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="checkbox" name="perangkat" value="Laptop/Komputer" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500" />
-                <span class="text-sm font-medium text-slate-700">💻 Laptop / Komputer Pribadi</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Akses Internet -->
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2">
-              Kondisi Akses Internet di Rumah: <span class="text-rose-500">*</span>
-            </label>
-            <div class="space-y-2">
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="radio" name="internet" value="WiFi/Kuota Lancar" required class="w-4 h-4 text-blue-600" />
-                <span class="text-sm font-medium text-slate-700">📡 WiFi / Kuota Internet Sangat Lancar</span>
-              </label>
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="radio" name="internet" value="Kuota Terbatas" class="w-4 h-4 text-blue-600" />
-                <span class="text-sm font-medium text-slate-700">📊 Kuota Terbatas / Selalu Berhemat</span>
-              </label>
-            </div>
-          </div>
-        </section>
-
-        <!-- Bagian B: Minat & Rencana -->
-        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm custom-card space-y-6">
-          <div class="flex items-center gap-3 pb-4 border-b border-slate-100">
-            <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">B</div>
-            <div>
-              <h3 class="font-bold text-slate-800 text-lg">Minat Jurusan & Rencana Masa Depan</h3>
-              <p class="text-xs text-slate-500">Alasan memilih jurusan dan target lulus</p>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2">Alasan Memilih Jurusan: <span class="text-rose-500">*</span></label>
-            <div class="space-y-2">
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="radio" name="alasan" value="Sesuai Minat/Hobi" required class="w-4 h-4 text-blue-600" />
-                <span class="text-sm text-slate-700">🎨 Sesuai Minat / Hobi</span>
-              </label>
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="radio" name="alasan" value="Peluang Kerja Prospektif" class="w-4 h-4 text-blue-600" />
-                <span class="text-sm text-slate-700">💼 Peluang Kerja Prospektif</span>
-              </label>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2">Rencana Setelah Lulus: <span class="text-rose-500">*</span></label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="radio" name="rencana" value="Langsung Bekerja" required class="w-4 h-4 text-blue-600" />
-                <span class="text-sm text-slate-700">🏬 Langsung Bekerja</span>
-              </label>
-              <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
-                <input type="radio" name="rencana" value="Melanjutkan Kuliah" class="w-4 h-4 text-blue-600" />
-                <span class="text-sm text-slate-700">🎓 Melanjutkan Kuliah</span>
-              </label>
-            </div>
-          </div>
-        </section>
-
-        <!-- Tombol Kirim -->
-        <div class="flex flex-col items-center gap-3 pt-2">
-          <button type="submit" class="w-full sm:w-auto px-10 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-base rounded-2xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
-            <i data-lucide="send" class="w-5 h-5"></i> Kirim Jawaban Survei
-          </button>
-          <p class="text-xs text-slate-400">Data Anda akan diproses dan dapat langsung diunduh sebagai dokumen PDF.</p>
-        </div>
-
-      </form>
-      <!-- ===== END FORM ===== -->
-
-      <!-- ===== SUCCESS STATE ===== -->
-      <div id="success-state" class="hidden bg-white rounded-2xl p-8 border border-slate-200 text-center space-y-6 shadow-sm">
-        <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
-          <i data-lucide="check-circle" class="w-10 h-10 text-emerald-600"></i>
-        </div>
-        <div>
-          <h2 class="text-2xl font-extrabold text-slate-800">Jawaban Berhasil Terkirim!</h2>
-          <p class="text-slate-600 text-sm mt-1">Silakan unduh atau tampilkan pratinjau dokumen PDF hasil survei Anda.</p>
-        </div>
-
-        <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
-          <button id="preview-pdf-btn" class="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2 text-sm">
-            <i data-lucide="eye" class="w-4 h-4"></i> Preview PDF
-          </button>
-          <button id="download-pdf-btn" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2 text-sm">
-            <i data-lucide="download" class="w-4 h-4"></i> Download PDF
-          </button>
-          <button id="new-form-btn" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition flex items-center gap-2 text-sm">
-            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Isi Form Baru
-          </button>
-        </div>
-      </div>
-
     </div>
-  </main>
 
-  <!-- ===== MODAL PREVIEW PDF ===== -->
-  <div id="pdf-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex flex-col items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-4xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-      <!-- Modal Header -->
-      <div class="px-6 py-4 bg-slate-800 text-white flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <i data-lucide="file-text" class="w-5 h-5 text-blue-400"></i>
-          <h3 class="font-bold text-base">Pratinjau Dokumen PDF</h3>
-        </div>
-        <button id="close-modal-btn" class="p-1 hover:bg-slate-700 rounded-lg transition text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-      </div>
-      <!-- PDF Frame -->
-      <div class="flex-grow bg-slate-100 p-2">
-        <iframe id="pdf-frame" class="w-full h-full rounded-xl border border-slate-300"></iframe>
-      </div>
-    </div>
-  </div>
+    <!-- Container Tersembunyi untuk Render PDF yang Sangat Panjang -->
+    <div id="pdfTemplate" style="display:none; width: 800px; padding: 40px; background: white;"></div>
 
-  <!-- ===== LOADING OVERLAY ===== -->
-  <div id="loading-overlay" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50">
-    <div class="bg-white rounded-2xl p-6 text-center shadow-2xl max-w-xs mx-4 space-y-3">
-      <div class="animate-spin w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
-      <p class="text-sm font-bold text-slate-800">Memproses Jawaban...</p>
-      <p class="text-xs text-slate-500">Menyiapkan dokumen PDF hasil survei Anda...</p>
-    </div>
-  </div>
+    <script>
+        // === GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA ===
+        const GOOGLE_SCRIPT_URL = "URL_WEB_APP_ANDA_DISINI"; 
 
-  <!-- ===== TOAST ===== -->
-  <div id="toast" class="hidden fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold z-50 flex items-center gap-2 border border-slate-700">
-    <span id="toast-msg">Notifikasi</span>
-  </div>
+        const sections = document.querySelectorAll('.form-section');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const stepIndicator = document.getElementById('stepIndicator');
+        let currentStep = 0;
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="bg-white border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-500">
-    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>© 2026 Aplikasi Survei Karakteristik Murid. Standar Asesmen Diagnostik.</p>
-      <div class="flex items-center gap-3 text-slate-400">
-        <span>PDF Report Generator</span>
-      </div>
-    </div>
-  </footer>
+        function updateNav() {
+            sections.forEach((sec, index) => {
+                sec.classList.toggle('active', index === currentStep);
+            });
+            stepIndicator.textContent = `Langkah ${currentStep + 1} dari ${sections.length}`;
+            prevBtn.classList.toggle('hidden', currentStep === 0);
+            
+            if (currentStep === sections.length - 1) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-  <!-- ===== JAVASCRIPT ===== -->
-  <script>
-    let lastSubmissionData = null;
+        nextBtn.addEventListener('click', () => {
+            const currentInputs = sections[currentStep].querySelectorAll('input[required], select[required], textarea[required]');
+            let valid = true;
+            currentInputs.forEach(input => {
+                if (!input.value) { input.reportValidity(); valid = false; }
+            });
+            if (valid && currentStep < sections.length - 1) { currentStep++; updateNav(); }
+        });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      setupEventListeners();
-    });
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) { currentStep--; updateNav(); }
+        });
 
-    function setupEventListeners() {
-      // Submit form
-      document.getElementById('survey-form').addEventListener('submit', handleFormSubmit);
+        const form = document.getElementById('surveyForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showModal('loading');
 
-      // Preview PDF
-      document.getElementById('preview-pdf-btn').addEventListener('click', () => {
-        if (lastSubmissionData) generatePDF(lastSubmissionData, 'preview');
-      });
+            try {
+                const formData = new FormData(form);
+                const formObj = {};
+                
+                // Ekstraksi data
+                for (let [key, value] of formData.entries()) {
+                    if(key.endsWith('[]')){
+                        let cleanKey = key.replace('[]','');
+                        if (!formObj[cleanKey]) formObj[cleanKey] = [];
+                        formObj[cleanKey].push(value);
+                    } else {
+                        formObj[key] = value;
+                    }
+                }
 
-      // Download PDF
-      document.getElementById('download-pdf-btn').addEventListener('click', () => {
-        if (lastSubmissionData) generatePDF(lastSubmissionData, 'download');
-      });
+                // Render HTML ke div PDF
+                const pdfContainer = document.getElementById('pdfTemplate');
+                pdfContainer.style.display = 'block';
+                
+                // Mencegah baris kepotong di page break pada PDF
+                pdfContainer.innerHTML = `
+                    <style> tr { page-break-inside: avoid; } </style>
+                    <div style="font-family: Arial, sans-serif; color: #000; font-size: 13px;">
+                        <h2 style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+                            SURVEI KARAKTERISTIK DAN KEBUTUHAN MURID
+                        </h2>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+                            ${Object.keys(formObj).map(key => `
+                                <tr>
+                                    <td style="padding: 6px; border: 1px solid #ddd; width: 45%; font-weight: bold; vertical-align: top; background: #f9f9f9;">${key}</td>
+                                    <td style="padding: 6px; border: 1px solid #ddd; vertical-align: top;">
+                                        ${Array.isArray(formObj[key]) ? formObj[key].join(', ') : (formObj[key] || '-')}
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                        <div style="text-align: right; margin-top: 50px;">
+                            <p>Tanda Tangan Murid</p>
+                            <br><br><br>
+                            <p style="text-decoration: underline; font-weight: bold;">${formObj['Nama Lengkap']}</p>
+                            <p style="font-size:10px; color:#555;">Digenerate otomatis pada: ${new Date().toLocaleString('id-ID')}</p>
+                        </div>
+                    </div>
+                `;
 
-      // Close modal
-      document.getElementById('close-modal-btn').addEventListener('click', () => {
-        document.getElementById('pdf-modal').classList.add('hidden');
-      });
+                // Seting PDF
+                const opt = {
+                    margin:       0.4,
+                    filename:     'Survei_'+formObj['Nama Lengkap']+'.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+                };
+                
+                const pdfBase64 = await html2pdf().set(opt).from(pdfContainer).outputPdf('datauristring');
+                pdfContainer.style.display = 'none'; 
+                formObj.pdfData = pdfBase64;
 
-      // Reset form
-      document.getElementById('new-form-btn').addEventListener('click', () => {
-        document.getElementById('survey-form').reset();
-        document.getElementById('survey-form').classList.remove('hidden');
-        document.getElementById('success-state').classList.add('hidden');
-        lastSubmissionData = null;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        lucide.createIcons();
-      });
-    }
+                if(GOOGLE_SCRIPT_URL === "URL_WEB_APP_ANDA_DISINI"){
+                    throw new Error("Penting: URL Web App Google Apps Script belum diganti di dalam kode HTML.");
+                }
 
-    // Handle form submission
-    async function handleFormSubmit(e) {
-      e.preventDefault();
-      const form = e.target;
-      const loading = document.getElementById('loading-overlay');
-      loading.classList.remove('hidden');
+                // Kirim POST Request
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(formObj),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
 
-      const getRadioVal = (name) => {
-        const checked = form.querySelector(`input[name="${name}"]:checked`);
-        return checked ? checked.value : '';
-      };
+                const result = await response.json();
+                if (result.status === 'success') {
+                    showModal('success');
+                } else {
+                    throw new Error(result.message || 'Gagal menyimpan data.');
+                }
 
-      const getCheckboxVals = (name) => {
-        return [...form.querySelectorAll(`input[name="${name}"]:checked`)].map(c => c.value).join(', ');
-      };
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById('errorMsg').textContent = error.message;
+                showModal('error');
+                document.getElementById('pdfTemplate').style.display = 'none';
+            }
+        });
 
-      const record = {
-        nama_lengkap: form.nama.value.trim(),
-        kelas_konsentrasi: form.kelas.value.trim(),
-        perangkat_belajar: getCheckboxVals('perangkat') || 'Tidak ada',
-        koneksi_internet: getRadioVal('internet'),
-        alasan_jurusan: getRadioVal('alasan'),
-        rencana_lulus: getRadioVal('rencana'),
-        submitted_at: new Date().toISOString()
-      };
-
-      // Simulasi proses
-      await new Promise(resolve => setTimeout(resolve, 600));
-      loading.classList.add('hidden');
-
-      lastSubmissionData = record;
-      form.classList.add('hidden');
-      document.getElementById('success-state').classList.remove('hidden');
-      lucide.createIcons();
-
-      // Langsung tampilkan preview PDF (opsional)
-      // generatePDF(record, 'preview');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ===== GENERATE PDF =====
-    function generatePDF(data, mode = 'download') {
-      if (!window.jspdf) {
-        showToast('Library PDF belum siap!');
-        return;
-      }
-
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-
-      const primaryColor = [30, 58, 138];
-      const textColor = [30, 41, 59];
-      const lightBg = [241, 245, 249];
-
-      // Header
-      doc.setFillColor(...primaryColor);
-      doc.rect(0, 0, 210, 28, 'F');
-
-      doc.setTextColor(255, 255, 255);
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(14);
-      doc.text('LAPORAN SURVEI KARAKTERISTIK MURID', 15, 13);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.text('Asesmen Diagnostik Non-Kognitif & Profil Gaya Belajar', 15, 20);
-
-      doc.setTextColor(...textColor);
-      let y = 36;
-
-      function printSectionTitle(title) {
-        doc.setFillColor(...lightBg);
-        doc.roundedRect(15, y, 180, 7, 1.5, 1.5, 'F');
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9.5);
-        doc.setTextColor(...primaryColor);
-        doc.text(title, 18, y + 5);
-        doc.setTextColor(...textColor);
-        doc.setFont('helvetica', 'normal');
-        y += 11;
-      }
-
-      function printField(label, val) {
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(8.5);
-        doc.text(label + ':', 18, y);
-        doc.setFont('helvetica', 'normal');
-        const splitText = doc.splitTextToSize(val || '-', 115);
-        doc.text(splitText, 65, y);
-        y += (splitText.length * 4.5) + 1.5;
-      }
-
-      // Section A
-      printSectionTitle('A. PROFIL & AKSES BELAJAR DIGITAL');
-      printField('Nama Lengkap', data.nama_lengkap);
-      printField('Kelas / Konsentrasi', data.kelas_konsentrasi);
-      printField('Perangkat Belajar', data.perangkat_belajar);
-      printField('Koneksi Internet', data.koneksi_internet);
-      y += 2;
-
-      // Section B
-      printSectionTitle('B. MINAT JURUSAN & RENCANA MASA DEPAN');
-      printField('Alasan Memilih Jurusan', data.alasan_jurusan);
-      printField('Rencana Setelah Lulus', data.rencana_lulus);
-      y += 2;
-
-      // Footer
-      doc.setFontSize(8);
-      doc.setTextColor(148, 163, 184);
-      const formattedDate = data.submitted_at ? new Date(data.submitted_at).toLocaleString('id-ID') : '-';
-      doc.text(`Waktu Pengisian: ${formattedDate} | Dokumen Resmi Survei Murid`, 15, 285);
-
-      const fileName = `Survei_${(data.nama_lengkap || 'Murid').replace(/\s+/g, '_')}.pdf`;
-
-      if (mode === 'preview') {
-        const stringPdf = doc.output('datauristring');
-        document.getElementById('pdf-frame').src = stringPdf;
-        document.getElementById('pdf-modal').classList.remove('hidden');
-        lucide.createIcons();
-      } else {
-        doc.save(fileName);
-        showToast('File PDF berhasil diunduh!');
-      }
-    }
-
-    // ===== TOAST =====
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toast-msg').textContent = msg;
-      toast.classList.remove('hidden');
-      setTimeout(() => toast.classList.add('hidden'), 3500);
-    }
-  </script>
-
+        // Kontrol Modal
+        const modal = document.getElementById('statusModal');
+        function showModal(state) {
+            modal.classList.remove('hidden');
+            document.getElementById('modalLoading').classList.add('hidden');
+            document.getElementById('modalSuccess').classList.add('hidden');
+            document.getElementById('modalError').classList.add('hidden');
+            
+            if(state === 'loading') document.getElementById('modalLoading').classList.remove('hidden');
+            if(state === 'success') document.getElementById('modalSuccess').classList.remove('hidden');
+            if(state === 'error') document.getElementById('modalError').classList.remove('hidden');
+        }
+        function closeModal() { modal.classList.add('hidden'); }
+    </script>
 </body>
 </html>
